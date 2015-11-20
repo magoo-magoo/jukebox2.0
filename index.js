@@ -1,46 +1,16 @@
 'use strict';
-const app = require('app');
-const BrowserWindow = require('browser-window');
 
-// report crashes to the Electron project
-require('crash-reporter').start();
+var path = require('path');
+global.appRoot = path.resolve(__dirname);
 
-// adds debug features like hotkeys for triggering dev tools and reload
-require('electron-debug')();
+var jukeboxService = require('./app/service/service.js');
 
-// prevent window being garbage collected
-let mainWindow;
+jukeboxService.udpListen();
 
-function onClosed() {
-	// dereference the window
-	// for multiple windows store them in an array
-	mainWindow = null;
-}
+console.log('listen broadcast messages...');
 
-function createMainWindow() {
-	const win = new BrowserWindow({
-		width: 600,
-		height: 400
-	});
 
-	win.loadUrl(`file://${__dirname}/index.html`);
-	win.on('closed', onClosed);
 
-	return win;
-}
+var monitor = require('./app/monitor/index.js');
 
-app.on('window-all-closed', () => {
-	if (process.platform !== 'darwin') {
-		app.quit();
-	}
-});
-
-app.on('activate-with-no-open-windows', () => {
-	if (!mainWindow) {
-		mainWindow = createMainWindow();
-	}
-});
-
-app.on('ready', () => {
-	mainWindow = createMainWindow();
-});
+monitor.start();
