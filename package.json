@@ -28,7 +28,8 @@
     "electron-app"
   ],
   "dependencies": {
-    "electron-debug": "^0.1.1"
+    "electron-debug": "^0.1.1",
+    "express": "^4.13.3"
   },
   "devDependencies": {
     "electron-packager": "^5.0.0",
